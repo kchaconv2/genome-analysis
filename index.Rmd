@@ -3,8 +3,16 @@ title: "index"
 author: "Katherine Chacon-Vargas"
 date: "2/26/2020"
 output: html_document
+bibliography: data/references.bib
 ---
 
-This is my new web site!
+List Labs Human Genome Analysis!
 
+*[Lab3](mylab3_ggplot_KCH.html)
+*[Lab4](mylab4_ggplot_graph_KCH.html)
 *[Lab5](lab5_data_wrangling.html)
+
+
+Application written in R [@RCoreTeam] using the Shiny framework [@Chang2015].
+
+# REFERENCES
