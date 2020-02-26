@@ -8,8 +8,12 @@ bibliography: data/references.bib
 
 List Labs Human Genome Analysis!
 
+*[Lab2](mylab2_SNP_KCH.html)
+
 *[Lab3](mylab3_ggplot_KCH.html)
+
 *[Lab4](mylab4_ggplot_graph_KCH.html)
+
 *[Lab5](lab5_data_wrangling.html)
 
 
