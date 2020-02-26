@@ -1,0 +1,131 @@
+---
+title: "Lab4_ggplot_KCV"
+author: "Katherine Chacon-Vargas"
+date: "2/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(RColorBrewer)
+library(plotly)
+library(DT)
+library(dplyr)
+```
+
+```{r}
+SNPs <- read.table("23andMe_complete.txt", header = T, sep = "\t")
+```
+
+##Excersice 1
+```{r}
+ggplot(SNPs, aes(chromosome)) +
+  geom_bar(colour="darkblue", fill="blue")+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_blank())+
+    ggtitle("Total SNPs for each genotype") +
+    ylab("Total number of SNPs") +
+    xlab("Chromosome")
+```
+
+```{r}
+#CHR sort
+SNPs$chromosome = ordered(SNPs$chromosome, levels=c(seq(1, 22), "X", "Y", "MT"))
+
+ggplot(SNPs, aes(chromosome)) +
+  geom_bar(colour="darkblue", fill="blue")+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_blank())+
+  ggtitle("Total SNPs for each genotype") +
+    ylab("Total number of SNPs") +
+    xlab("Chromosome")
+```
+
+##Excersice 2
+
+```{r}
+CBP <- c("AA"="#999999","A"="#E69F00","AC"="#56B4E9","AG"="#009E73","AT"="#F0E442","C"="#0072B2","CC"="#D55E00","CG"="#CC79A7","CT"="#000000","D"="#FFCC00","DD"="#FF9900","DI"="#FF3300","G"="#99CC00","GG"="#33FF00","GT"="#00FFCC","I"="#9900FF","II"="#666699","T"="#CCFFCC","TT"="#996699","--"="#00CCFF")
+ggplot(SNPs, aes(chromosome, fill=genotype)) +
+  geom_bar(color="white")+
+  scale_fill_manual(values = CBP)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_blank())+
+  ggtitle("Total SNPs for each genotype") +
+    ylab("Total number of SNPs") +
+    xlab("Chromosome")
+  
+```
+
+##Excersice 3
+
+```{r}
+ppi <- 400
+png("SNP_plot.png", width=6*ppi, height=6*ppi, res=ppi)
+
+ggplot(SNPs, aes(chromosome, fill=genotype)) +
+  geom_bar(color="black", position="dodge")+
+  scale_fill_manual(values = CBP, name="Genotype")+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_blank())+
+  ggtitle("Total SNPs for each genotype") +
+    ylab("Total number of SNPs") +
+    xlab("Chromosome")
+dev.off()
+```
+
+![Genotype counts per chromosome](SNP_plot.png) 
+
+##Excersice 4
+
+```{r, fig.width=14, fig.height=12}
+ggplot(SNPs, aes(genotype, fill=genotype)) +
+  geom_bar(color="black", position="dodge")+
+  scale_fill_manual(values = CBP, name="Genotype")+
+ facet_wrap( ~ chromosome , ncol = 5)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_blank(), axis.ticks = element_blank(), axis.text.x = element_blank(), axis.title.x = element_blank())+
+  ggtitle("Total SNPs for each genotype") +
+    ylab("Total number of SNPs")
+
+```
+
+```{r, fig.width=14, fig.height=12}
+#log2 trans
+ggplot(SNPs, aes(genotype, fill=genotype)) +
+  geom_bar(color="black", position="dodge")+
+  scale_fill_manual(values = CBP, name="Genotype")+
+ facet_wrap( ~ chromosome , ncol = 5)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_blank(), axis.ticks = element_blank(), axis.text.x = element_blank(), axis.title.x = element_blank())+
+  scale_y_continuous(trans = 'log2')+
+  ggtitle("Total SNPs for each genotype") +
+    ylab("Total number of SNPs")
+```
+
+##Excersise 5
+
+```{r, fig.width=14, fig.height=12}
+p <- ggplot(SNPs, aes(genotype, fill=genotype)) +
+  geom_bar(color="black", position="dodge")+
+  scale_fill_manual(values = CBP, name="Genotype")+
+ facet_wrap( ~ chromosome , ncol = 5)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_blank(), axis.ticks = element_blank(), axis.text.x = element_blank(), axis.title.x = element_blank())+
+  scale_y_continuous(trans = 'log2')+
+  ggtitle("Total SNPs for each genotype") +
+    ylab("Total number of SNPs")
+
+ggplotly(p)
+```
+
+##Excersice 6
+
+```{r}
+#library(dplyr)
+SNP_Y <- filter(SNPs, chromosome == "Y")
+datatable(SNP_Y)
+```
