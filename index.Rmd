@@ -17,6 +17,6 @@ List Labs Human Genome Analysis!
 *[Lab5](lab5_data_wrangling.html)
 
 
-Application written in R [@RCoreTeam] using the Shiny framework [@Chang2015].
+[@RCoreTeam] [@Chang2015]
 
 # REFERENCES
