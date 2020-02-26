@@ -1,0 +1,192 @@
+---
+title: "Lab 5"
+author: "Katherine Chacon-Vargas"
+date: "2/19/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+
+```
+
+```{r, eval=FALSE}
+SNPs <- read.table("data/23andMe_example_cat25.txt", header = T, sep = "\t")
+```
+![Genotype counts per chromosome](images/SNP_plot.png) 
+
+###Data Carpentries -Challengies
+```{r, eval=FALSE}
+download.file(url="https://ndownloader.figshare.com/files/2292169",
+              destfile = "data/portal_data_joined.csv")
+```
+
+```{r, message=FALSE}
+surveys <- read_csv("data/portal_data_joined.csv")
+```
+
+```{r}
+str(surveys)
+view(surveys)
+```
+
+```{r}
+#Columns to keep
+select(surveys,plot_id, species_id, weight)
+```
+
+```{r}
+#Columns to exclude 
+select(surveys, -record_id, -species_id)
+```
+
+```{r}
+#filter by especifications 
+filter(surveys, year == 1995)
+```
+##Challenge
+##1
+```{r}
+surveys %>% 
+  filter( year < 1995) %>% 
+  select(year, sex, weight)
+```
+
+##2
+```{r}
+surveys_hindfoot_half <- surveys %>%
+  filter(!is.na(hindfoot_length)) %>% 
+  mutate(hindfoot_half = hindfoot_length /2) %>% 
+  filter(hindfoot_half < 30) %>% 
+  select(species_id, hindfoot_half)
+
+```
+
+##3
+```{r}
+surveys %>% 
+  count(plot_type)
+```
+
+##4
+```{r}
+surveys %>% 
+  filter(!is.na(hindfoot_length)) %>% 
+  group_by(species_id) %>% 
+  summarize(mean_hindfoot = mean(hindfoot_length),
+            max_hindfoot = max(hindfoot_length),
+            min_hindfoot = min(hindfoot_length),
+            n=n()) #this add number of observations 
+```
+
+##5
+```{r}
+surveys %>% 
+  filter(!is.na(weight)) %>% 
+  group_by(year) %>% 
+  filter(weight==max(weight)) %>% 
+  select(year,genus,species,weight) %>% 
+  arrange(year)
+```
+
+##6
+```{r}
+rich_time <- surveys %>% 
+  group_by(plot_id, year) %>% 
+  summarize(n_genera= n_distinct(genus)) %>% 
+  spread(year, n_genera)
+
+head(rich_time)
+```
+
+##7
+```{r}
+rich_time %>% 
+  gather(year,n_genera, -plot_id)
+```
+
+##8
+```{r}
+surveys.long <- surveys %>% 
+  gather(measurement, value,hindfoot_length, weight) %>% 
+  print(n=15)
+```
+
+##9
+```{r}
+surveys.long %>% 
+  group_by(year, measurement, plot_type) %>% 
+  summarise(mean_value = mean(value, na.rm=T)) %>% 
+  spread(measurement, mean_value)
+```
+
+###Exercises 
+
+```{r}
+SNPs <- read_tsv("data/23andMe_complete.txt", skip = 14, col_types = 
+                   cols(chromosome = col_factor()))
+```
+
+##Exercise 1
+```{r}
+select(SNPs, position, genotype)
+```
+
+##Exercise 2
+```{r}
+SNPs %>% 
+  filter(chromosome=='MT') %>% 
+  filter(genotype != 'A', genotype !='T')
+
+#or
+filter(SNPs, chromosome == 'MT', genotype != 'A', genotype !='T')
+
+```
+
+##Exercise 3
+```{r}
+SNPs %>% 
+  group_by(chromosome) %>% 
+  summarize(max_position = max(position),
+            min_position = min(position),
+            n=n()) #this add number of observations 
+```
+
+##Exercise 4
+```{r}
+SNPs %>% 
+  group_by(chromosome) %>% 
+  summarize(max_position = max(position),
+            min_position = min(position),
+            n=n()) %>% #this add number of observations 
+  mutate(density = n/(max_position-min_position))
+```
+
+##Exercise 5
+```{r}
+SNPs %>% 
+  group_by(chromosome) %>% 
+  summarize(max_position = max(position),
+            min_position = min(position),
+            n=n()) %>% #this add number of observations 
+  mutate(density = n/(max_position-min_position)) %>% 
+arrange(density)
+```
+
+##Exercise 6
+```{r}
+SNPs_lab5 <- SNPs %>% 
+  group_by(chromosome) %>% 
+  summarize(max_position = max(position),
+            min_position = min(position),
+            n=n()) %>% #this add number of observations 
+  mutate(density = n/(max_position-min_position)) %>% 
+arrange(density)
+print(SNPs_lab5, n=25)
+write_csv(SNPs, path = "data/SNPs_lab5.csv")
+```
