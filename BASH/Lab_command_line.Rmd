@@ -1,0 +1,42 @@
+---
+title: "command line lab"
+author: "Katherine Chacon-Vargas"
+date: "4/27/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{sh}
+pwd #get path to current working dir
+```
+
+```{sh}
+pwd > class_path.txt #copy path in new file
+```
+
+```{sh}
+more class_path.txt #see infor in text file 
+```
+
+```{sh}
+more my_info | grep Armenia #view my_info file and grep Armenia
+```
+
+```{sh}
+grep 'Katherine' my_info > class_path.txt #grep Katherine anc copy it to class_path.txt file
+```
+
+```{sh}
+cp class_path.txt class_name.txt # copy class
+```
+
+```{sh}
+more class_name.txt # see info in class_name.txt file
+```
+
+```{sh}
+rm class_path.txt # remove class_path.txt file
+```

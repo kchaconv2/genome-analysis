@@ -1,0 +1,9 @@
+---
+title: "Genealogy"
+author: "Katherine Chacon-Vargas"
+date: "3/24/2020"
+output: html_document
+---
+
+![Genealogy](/Users/katherinechaconvargas/Dropbox/2020_UMASS/Human_Genome_Class_Jeffrey/images/genealogy.png)
+

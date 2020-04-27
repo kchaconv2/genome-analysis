@@ -444,7 +444,7 @@ l <- ggplot(data_time, aes(x = Date,  y = Confirmed, color = Country_Region)) +
 # animate(p,renderer = gifski_renderer(), end_pause = 15)
 ```
 
-```{r l, warnings=FALSE, message=FALSE, echo=TRUE}
+```{r l, warnings=FALSE, message=FALSE, echo=FALSE}
 animate(l, end_pause = 15)
 ```
 
