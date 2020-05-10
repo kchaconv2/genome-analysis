@@ -1,0 +1,20 @@
+---
+title: "Shinny Maps"
+author: "Katherine Chacon-Vargas"
+date: "5/9/2020"
+output: html_document
+---
+
+##Shinny Apps Lab 11
+List Shinny Apps Humane Genome Analysis!
+
+* <a href="https://katherine-chacon-vargas.shinyapps.io/latin_america/" target="_blank">Latin America Reports</a>
+
+* <a href="https://katherine-chacon-vargas.shinyapps.io/map_5_countries_ex2/" target="_blank">Report COVID 19 cases in South America and US</a>
+
+* <a href="https://katherine-chacon-vargas.shinyapps.io/lab11_maps2/" target="_blank">World COVI 19 reports</a>
+
+* <a href="https://katherine-chacon-vargas.shinyapps.io/lab_11_maps_2020/" target="_blank">Global reports COVID 19 cases</a>
+
+
+
